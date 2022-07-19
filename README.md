@@ -211,6 +211,193 @@ Inheritance
 For more information on inheritance:
 https://www.w3schools.com/python/python_inheritance.asp
      
-
+Polymporphism
     
+    The last pillar of OOP is polymorphism. Polymorphism means "many forms". In Python, polymorphism relates to the way in which object classes
+    can share the same method name but they can behave differently depending on what object calls them.
+    
+    Take the following code for example:
+    
+        class Wizard(User):
+            def __init__(self, name, power):
+            def attack(self):
+                print(f"attacking with power of {self.power}")
+                
+        class Archer(User):
+            def __init__(self, name, num_arrows):
+            def attack(self):
+                print(f"attack with arrows: arrows left - {self.num_arrows)")
 
+    While the methods share the same name, "attack", they clearly yield different results when called by the different methods.
+    
+    An example of the power of polymorphism:
+    
+        wizard1 = Wizard("Merlin", 60)
+        archer1 = Archer("Robin", 30)
+        
+        def player_attack(char):
+            char.attack()
+        
+        player_attack(wizard1) -> outputs: attacking with power of 60
+        player_attack(archer1) -> outputs: attacking with arrows: arrows left - 30
+        
+    As you can see, we instantiated new instances of our Wizard and Archer objects and also defined a new function. This function will invoke the
+    attack method of our objects when passed in. Notice that the function returns wizard1.attack() or archer1.attack(), invoking the object's own
+    attack method with their own output.
+ 
+For more information on polymorphism:
+https://www.programiz.com/python-programming/polymorphism
+
+super()
+    
+    super() allows for us to share attributes from our parent class to its descendants (child classes). You could explicitly write these same attributes
+    to your new objects, but if you ever have to alter it, you will have to make modifications in several objects rather than just the parent class.
+    
+    ex:
+    
+    Let's say your User class needs an email field as every user should have an email registered.
+    
+    class User(object):
+        def __init__(self, email):
+            self.email = email
+            
+        def sign_in(self):
+            print("logged in")
+            
+    class Wizard(User):
+        def __init__(self, name, power):
+            super().__init__(email)
+            self.name = name
+            self.power = power
+            
+   The super() keyword essentially points up the class above the one invoking it. In this case, it is pointing at User. This is useful to us as it 
+   allows us to enjoy the privileges of using the User class's email property without also having the responsibility of setting it within the Wizard
+   class. This helps keep our code DRY (Don't Repeat Yourself)
+   
+For more information on super():
+https://www.programiz.com/python-programming/methods/built-in/super
+
+Introspection
+
+    Since everything in Python is an object, this makes it easy for the compiler to recognize information about the objects.
+    
+    For example, calling print(dir(wizard1)) will display all information about an object, i.e; its properties, methods, etc.
+    
+Dunder Methods
+
+    Dunder methods/magic methods, allows us to use Python specific functions on objects, created through our class. 
+    
+    class Toy():
+        def __init__(self, color, age):
+            self.color = color
+            self.age = age
+            self.my_dict = {
+                "name": "Yoyo",
+                "has_pets": False
+            }
+            
+    action_figure = Toy("red", 0)
+    print(action_figure.__str__()) -> is the same thing as print(str(action_figure))
+    
+    You can customize dunder methods (although it is not really recommended but there are special use cases), ex:
+    
+    def __str__(self):
+        return f"{self.color}"
+        
+    def __len__(self):
+        return 5
+     
+    def __getitem__(self, i):
+        return self.my_dict[i]
+        
+    print(action_figure["name"]) -> prints Yoyo, thanks to the __getitem__ dunder method
+    
+For more information on dunder methods:
+https://www.pythonmorsels.com/what-are-dunder-methods/
+
+Multiple Inheritance
+    
+    Python allows objects to inherit properties, methods, and the link from multiple objects. For example:
+        
+        class User(object):
+            def signed_in(self):
+              print("logged in")
+
+        class Wizard(User):
+            def __init__(self, name, power):
+               self.name = name
+               self.power = power
+
+            def attack(self):
+                print(f"attacking with power of {self.power}")
+
+
+        class Archer(User):
+          def __init__(self, name, arrows):
+            self.name = name
+            self.arrows = arrows
+
+          def arrow_attack(self):
+            print(f"attacking with arrows: arrows left - {self.arrows}")
+
+          def run(self):
+            print("ran really fast")
+
+        class HybridBorg(Wizard, Archer):
+          def __init__(self, name, power, arrows):
+            Archer.__init__(self, name, arrows)
+            Wizard.__init__(self, name, power)
+            
+      As you can see, our new class "HybridBorg" inherits from both Wizard and Archer. We first initalize HybridBorg with the properties it needs,
+      name, power, and arrows. Then we provide it the initialization for Archer and Wizard so that it may know how to inherit properties from each.
+      
+      We can use the new class and its inherited properties as such:
+      
+      character1 = HybridBorg("Hog", 60, 30)
+      
+      character1.signed_in()
+      character1.attack()
+      character1.arrow_attack()
+      character1.run()
+      
+Link to Repl.it demonstrating multiple inheritance:
+https://replit.com/@AutomationApe/MultipleInheritance#main.py
+
+MRO - Method Resolution Order
+
+    MRO is the flow of inheritance in objects. 
+    
+    Imagine you have classes A, B, C, D, and E:
+    
+    class A():
+      def PrintNum():
+        print(5)
+        
+    class B():
+        pass
+        
+    class C(B, A):
+        pass
+        
+    class D(C, B):
+        pass
+  
+    class E(D, C):
+        pass
+
+
+    new_instance = D
+
+    new_instance.PrintNum() -> outputs 5
+        
+    Class D for example, would follow this MRO:
+    class D > class C > class B > class A > base object
+    
+    The reason for this is the order of the inheritance in the parameters. The MRO checks if there is anything in class D, since it passes, it then
+    checks C, C passes, so it checks B, B also passes, so it checks A and inherits A's behavior.
+ 
+Link to Repl.it demonstrating MRO:
+https://replit.com/@AutomationApe/MRO
+
+For more information on MRO:
+https://www.educative.io/answers/what-is-mro-in-python
