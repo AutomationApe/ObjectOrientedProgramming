@@ -127,5 +127,90 @@ https://replit.com/@AutomationApe/FavoriteMusicGenreLister#main.py
 To learn more about classes and their methods:
 https://www.w3schools.com/python/python_classes.asp
 
+Encapsulation
 
-   
+    There are 4 'pillars' of OOP. Essentially the core topics of OOP. The first of the four is Encapsulation which is essentially the binding of 
+    data and the functions that manipulate said data. In other words, it is the idea of attributes and actions of a particular thing being
+    collected into a single place that we call a class.
+
+For more information on encapsulation:
+https://pynative.com/python-encapsulation/
+
+Abstraction
+
+    Abstraction, another pillar of OOP, is the hiding of information/only giving access to neccessary information. Abstraction is important because 
+    it helps keep data private and also prevents frustrating albeit accidental errors from happening. For example, you may accidentally alter the 
+    value of a variable that should not have been altered. Abstraction would prevent that from occuring, using keywords such as private. 
+    
+For more information on abstraction:
+https://www.faceprep.in/python/abstraction-in-python/#:~:text=Abstraction%20in%20Python%20is%20the,bought%20a%20new%20electronic%20gadget.
+
+Private vs Public Variables
+
+    With the PlayerCharacter class we created earlier, there are certain things that should not be altered. For example, the __init__ function, the
+    run function, etc. These are all examples of things that should retain their value within the class and should not be altered outside of it.
+    
+    In Python, there technically are no true private variables, however, there is a way to get around this. We can use an underscore to denote
+    a "private" variable, ex:
+    
+        class PlayerCharacter:
+        def __init__(self, name, age):
+            self._name = name
+            self._age = age
+            
+    While it does not actually make the variable inaccessible outside of its scope, it does tell other developers that the variable should be 
+    treated as if it were a real private variable.
+    
+For a discussion on Python's lack of true private variables:
+https://stackoverflow.com/questions/1641219/does-python-have-private-variables-in-classes
+
+Inheritance
+
+    Inheritance, another pillar of OOP, allows new objects to take on the properties of existing properties, so you can inherit classes.
+    
+    Let's expand on the idea of us working for a gaming company developing a game about wizards. Imagine the boss wants us to include additional player
+    types, such as archers, ogres, etc. We want to enforce that a user must be signed in to play, well, all of these player types will need that to be
+    enforced as well... inheritance is useful as it enables us to quickly give our new objects the properties of our user object, ex:
+        
+        class User():
+        def sign_in(self):
+            print("logged in")
+        
+        class Wizard(User):
+            pass
+        
+        class Archer(User):
+            pass
+        
+        class Ogre(User):
+            pass
+            
+     As you can see, we've passed the User class to each of our new objects via their parameters. This allows our new objects to inherit the sign
+     in function.
+     
+     This is powerful because we can then expand on our new objects, while they are inheriting the function from our User class. ex:
+     
+        class Wizard(User):
+            def __init__(self, name, power):
+                self.name = name
+                self.power = power
+                
+            def attack(self):
+                print(f"attacking with power of {self.power}")
+                
+     As you can see, we have given Wizard some of its own functions... ok, but why does it matter, can't we do that regardless? Sure, but now we're 
+     abstracting and keeping everything neat. We don't need to have the code for the "sign in" function within our Wizard class, because the wizard
+     class is its own object, therefore having it inherit the function from User, and containing its own attributes/properties is much more organized
+     and cleaner.
+     
+     If we instantiate a new instance of Wizard, we could use both the methods within our Wizard class and the methods within our User class:
+     wizard1 = Wizard("Merlin", 50)
+     wizard1.attack() -> outputs: attacking with the power of 50
+     wizard.sign_in() -> outputs: logged in
+     
+For more information on inheritance:
+https://www.w3schools.com/python/python_inheritance.asp
+     
+
+    
+
